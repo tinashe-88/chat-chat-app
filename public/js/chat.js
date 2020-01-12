@@ -77,4 +77,9 @@ $shareLocation.addEventListener('click', () => {
     })
 })
 
-socket.emit('join', { username, chatroom })
+socket.emit('join', { username, chatroom }, error => {
+    if (error){
+        alert(error)
+        location.href = '/'
+    }
+})
