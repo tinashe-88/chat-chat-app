@@ -37,6 +37,10 @@ io.on('connection', socket => {
 
         socket.emit('message', generateMessage('Admin','Welcome to Chat-chat!'))
         socket.broadcast.to(user.chatroom).emit('message', generateMessage('Admin', `${user.username} has joined!`))
+        io.to(user.chatroom).emit('roomData', {
+            chatroom: user.chatroom,
+            users: getUsersInChatroom(user.chatroom)
+        })
 
         callback()
     })
@@ -65,6 +69,10 @@ io.on('connection', socket => {
 
         if (user){
             io.to(user.chatroom).emit('message', generateMessage('Admin', `${user.username} has left the chat.`))
+            io.to(user.chatroom).emit('roomData', {
+                chatroom: user.chatroom,
+                users: getUsersInChatroom(user.chatroom)
+            })
         }
 
     })
